@@ -29,18 +29,39 @@ import {
   CardBody,
   CardTitle,
   CardText,
+  InputGroup,
+  Alert,
 } from "reactstrap";
-import Gallery from "react-photo-gallery";
-import { photos } from "./Photos";
 import Footer from "react-footer-comp";
 
 const Example = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(true);
   const [modal_new, setModal_new] = useState(false);
+  const [showText, setShowText] = useState(false);
+  const onClick = () => setShowText(true);
+  const [showText1, setShowText1] = useState(false);
+  const onClick1 = () => {
+    setShowText1(true);
+    if (showText === true) {
+      setShowText(false);
+    }
+  };
+  const [showText2, setShowText2] = useState(false);
+  const onClick2 = () => {
+    setShowText2(true);
+    if (showText1 === true) {
+      setShowText1(false);
+    }
+  };
 
   const toggle = () => setIsOpen(!isOpen);
-  const toggle_modal = () => setModal(!modal);
+  const toggle_modal = () => {
+    setModal(!modal);
+    if (modal) {
+      toggle_modal_new();
+    }
+  };
   const toggle_modal_new = () => setModal_new(!modal_new);
 
   return (
@@ -51,8 +72,8 @@ const Example = (props) => {
         expand="md"
         style={{ paddingLeft: "3%", paddingRight: "3%" }}
       >
-        <NavbarBrand href="/" style={{ color: "#259be4" }}>
-          Cuvette_Logo
+        <NavbarBrand href="/" style={{ color: "#02dbd3" }}>
+          Aadhar_Logo
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         {/* <Collapse isOpen={isOpen} navbar>
@@ -88,7 +109,7 @@ const Example = (props) => {
               width: "70%",
             }}
           />
-          <h4 style={{ textAlign: "center", margin: "3%" }}>Register Here!</h4>
+          <h4 style={{ textAlign: "center", margin: "3%" }}>Welcome User!</h4>
         </center>
         <ModalBody>
           <Form>
@@ -129,22 +150,12 @@ const Example = (props) => {
               />
             </FormGroup>
             <FormGroup style={{ margin: "2% 0" }}>
-              {/* <Label for="password">Password</Label> */}
+              {/* <Label for="aadhar">Aadhar Number</Label> */}
               <Input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Enter Your Password"
-                style={{ borderRadius: "20px" }}
-              />
-            </FormGroup>
-            <FormGroup style={{ margin: "2% 0" }}>
-              {/* <Label for="confirmpassword">Confirm Password</Label> */}
-              <Input
-                type="password"
-                name="confirmpassword"
-                id="confirmpassword"
-                placeholder="Re-Enter Your Password"
+                type="text"
+                name="aadhar"
+                id="aadhar"
+                placeholder="Enter Your Aadhar Number"
                 style={{ borderRadius: "20px" }}
               />
             </FormGroup>
@@ -157,7 +168,7 @@ const Example = (props) => {
               onClick={toggle_modal}
               style={{ borderRadius: "20px" }}
             >
-              Register Here
+              Get One Time Password
             </Button>{" "}
           </center>
         </ModalBody>
@@ -178,45 +189,22 @@ const Example = (props) => {
               width: "70%",
             }}
           />
-          <h4 style={{ textAlign: "center", margin: "3%" }}>Login Here!</h4>
+          <h4 style={{ textAlign: "center", margin: "3%" }}>
+            OTP Verification!
+          </h4>
         </center>
         <ModalBody>
           <Form>
             <FormGroup style={{ margin: "2% 0" }}>
-              {/* <Label for="email">Email</Label> */}
+              {/* <Label for="otp">OTP Number</Label> */}
               <Input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Enter Your Email"
+                type="text"
+                name="otp"
+                id="otp"
+                placeholder="Enter Your One Time Password"
                 style={{ borderRadius: "20px" }}
               />
             </FormGroup>
-            <FormGroup style={{ margin: "2% 0" }}>
-              {/* <Label for="password">Password</Label> */}
-              <Input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Enter Your Password"
-                style={{ borderRadius: "20px" }}
-              />
-            </FormGroup>
-            <FormGroup style={{ margin: "2% 0" }}>
-              {/* <Label for="confirmpassword">Confirm Password</Label> */}
-              <Input
-                type="password"
-                name="confirmpassword"
-                id="confirmpassword"
-                placeholder="Re-Enter Your Password"
-                style={{ borderRadius: "20px" }}
-              />
-            </FormGroup>
-            <center>
-              <a href="#" style={{ textDecoration: "none", color: "grey" }}>
-                Forgot Password? Click Here
-              </a>
-            </center>
           </Form>
           <br />
           <center>
@@ -226,11 +214,12 @@ const Example = (props) => {
               onClick={toggle_modal_new}
               style={{ borderRadius: "20px" }}
             >
-              Login Here
+              Verify One Time Password
             </Button>{" "}
           </center>
         </ModalBody>
       </Modal>
+
       <Row>
         <Col md={1}></Col>
         <Col
@@ -239,95 +228,104 @@ const Example = (props) => {
             alignItems: "center",
             justifyContent: "center",
             display: "flex",
-            padding: "2%",
-            textAlign: "left",
+            padding: "2% 0%",
+            textAlign: "justify",
           }}
         >
+          <br />
           <Card style={{ border: "none" }}>
             <CardBody>
-              <CardTitle tag="h1">
-                Welcome to{" "}
-                <a
-                  href="#"
-                  style={{ textDecoration: "none", color: "#259be4" }}
-                >
-                  Cuvette
-                </a>
-              </CardTitle>
+              <center>
+                <CardTitle tag="h1">
+                  Welcome to{" "}
+                  <a
+                    href="#"
+                    style={{ textDecoration: "none", color: "#02dbd3" }}
+                  >
+                    Aadhar
+                  </a>
+                </CardTitle>
+              </center>
               <CardText>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat
+                enim ad minima veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex venia
               </CardText>
-              <Button
-                outline
-                color="link"
-                onClick={toggle_modal}
-                style={{
-                  marginRight: "1%",
-                  borderColor: "#259be4",
-                  color: "#259be4",
-                  borderRadius: "20px",
-                }}
-              >
-                Register Here
-              </Button>
-              <Button
-                outline
-                color="link"
-                onClick={toggle_modal_new}
-                style={{
-                  marginLeft: "1%",
-                  borderColor: "#259be4",
-                  color: "#259be4",
-                  borderRadius: "20px",
-                }}
-              >
-                Login Here
-              </Button>
+              {showText ? (
+                <div>
+                  <br />
+                  <InputGroup>
+                    <Input
+                      type="text"
+                      name="landlord_aadhar"
+                      id="landlord_aadhar"
+                      placeholder="Enter The Aadhar Number"
+                    />
+                    <Button onClick={onClick1}>Submit</Button>
+                  </InputGroup>
+                  <br />
+                </div>
+              ) : null}
+              {showText1 ? (
+                <div>
+                  <br />
+                  <InputGroup>
+                    <Input
+                      type="text"
+                      name="landlord_otp"
+                      id="landlord_otp"
+                      placeholder="Enter The One Time Password"
+                    />
+                    <Button onClick={onClick2}>Submit</Button>
+                  </InputGroup>
+                  <br />
+                </div>
+              ) : null}
+              {showText2 ? (
+                <div>
+                  <br />
+                  <InputGroup>
+                    <Input
+                      type="text"
+                      name="landlord_otp"
+                      id="landlord_otp"
+                      placeholder="Verify Your Address"
+                    />
+                    <Button>Save Changes</Button>
+                  </InputGroup>
+                  <br />
+                </div>
+              ) : null}
+              <center>
+                <Button
+                  outline
+                  color="link"
+                  onClick={onClick}
+                  style={{
+                    marginRight: "1%",
+                    borderColor: "#02dbd3",
+                    color: "#02dbd3",
+                    borderRadius: "20px",
+                  }}
+                >
+                  Enter Landlord's Aadhar Number
+                </Button>
+              </center>
             </CardBody>
           </Card>
         </Col>
         <Col md={6} style={{ padding: "2%" }}>
-          <img src="home.gif" alt="" style={{ width: "100%" }} />
+          <img src="home_new.png" alt="" style={{ width: "80%" }} />
         </Col>
       </Row>
-      <Row
-        style={{
-          backgroundColor: "#259be4",
-          color: "white",
-          textAlign: "center",
-          padding: "5% 8%",
-        }}
-      >
-        <br />
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum
-        </p>
-        <br />
-      </Row>
       <br />
       <br />
       <br />
-      <h2>
-        Photo{" "}
-        <a href="#" style={{ textDecoration: "none", color: "#259be4" }}>
-          Gallery
-        </a>
-      </h2>
-      <br />
-      <br />
-      <div style={{ padding: "0 10% 8% 10%" }}>
-        <Gallery photos={photos} />
-      </div>
-      <Footer bgColor={"#259be4"} text={"All Rights Reserved © 2021 AlphaX"} />
+      <Footer
+        bgColor={"#02dbd3"}
+        text={"All Rights Reserved © 2021 Firmware_rebel"}
+      />
     </div>
   );
 };
