@@ -33,6 +33,8 @@ import {
   Alert,
 } from "reactstrap";
 import Footer from "react-footer-comp";
+import { v4 as uuidv4 } from 'uuid';
+import axios from "axios";
 
 const Example = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,6 +65,75 @@ const Example = (props) => {
     }
   };
   const toggle_modal_new = () => setModal_new(!modal_new);
+  const [ captchaTxnId , setCaptchaTxnId ] = useState(null)
+    const [ captchaValue, setCaptchaValue ] = useState(null)
+    const [ imgValue, setImgValue ] = useState(null)
+
+    function getCaptcha(){
+        let url = "https://stage1.uidai.gov.in/unifiedAppAuthService/api/v2/get/captcha"
+        let data = {
+            "langCode": "en",
+            "captchaLength": "3",
+            "captchaType": "2"
+           }
+        let config = {
+            "headers":{
+                "Content-Type":"application/json"
+            }
+        }
+
+        axios.post(url,data,config)
+        .then(res=>{
+            alert("Success")
+            console.log(res)
+            setCaptchaTxnId(res.data.captchaTxnId)
+            setImgValue('data:image/png;base64,' + res.data.captchaBase64String)
+
+
+        })
+        .catch(err=>{
+            alert("Error")
+            console.log(err)
+        })
+    }
+
+
+    function getOtp(){
+
+        let uiid = uuidv4()
+        
+        let headers = {
+            'x-request-id' : uiid,
+            'appid' : 'MYAADHAAR',
+            'Accept-Language':'en_in',
+            "Content-Type":"application/json"
+        }
+
+        let config = {
+            'headers' : headers
+        }
+
+        let data = {
+            "uidNumber" : "999924638810",
+            "captchaTxnId" : captchaTxnId,
+            "captchaValue": captchaValue,
+            "transactionId" : "MYAADHAAR:" + uiid,
+        }
+
+        console.log(data)
+
+        let url = "https://stage1.uidai.gov.in/unifiedAppAuthService/api/v2/generate/aadhaar/otp"
+
+        axios.post(url,data,config)
+        .then(res=>{
+            alert("Suuceess Otp")
+            console.log(res)
+        })
+        .catch(err=>{
+            alert("Error Otp")
+            console.log(err)
+        })
+    }
 
   return (
     <div>
@@ -113,42 +184,6 @@ const Example = (props) => {
         </center>
         <ModalBody>
           <Form>
-            <Row>
-              <Col md={6} style={{ margin: "1% 0" }}>
-                <FormGroup>
-                  {/* <Label for="firstname">First Name</Label> */}
-                  <Input
-                    type="text"
-                    name="firstname"
-                    id="firstname"
-                    placeholder="Enter Your First Name"
-                    style={{ borderRadius: "20px" }}
-                  />
-                </FormGroup>
-              </Col>
-              <Col md={6} style={{ margin: "1% 0" }}>
-                <FormGroup>
-                  {/* <Label for="lastname">Last Name</Label> */}
-                  <Input
-                    type="text"
-                    name="lastname"
-                    id="lastname"
-                    placeholder="Enter Your Last Name"
-                    style={{ borderRadius: "20px" }}
-                  />
-                </FormGroup>
-              </Col>
-            </Row>
-            <FormGroup style={{ margin: "2% 0" }}>
-              {/* <Label for="email">Email</Label> */}
-              <Input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Enter Your Email"
-                style={{ borderRadius: "20px" }}
-              />
-            </FormGroup>
             <FormGroup style={{ margin: "2% 0" }}>
               {/* <Label for="aadhar">Aadhar Number</Label> */}
               <Input
@@ -157,6 +192,9 @@ const Example = (props) => {
                 id="aadhar"
                 placeholder="Enter Your Aadhar Number"
                 style={{ borderRadius: "20px" }}
+                onChange={e=>{
+                  // 
+              }}
               />
             </FormGroup>
           </Form>
@@ -165,10 +203,13 @@ const Example = (props) => {
             <Button
               outline
               color="primary"
-              onClick={toggle_modal}
+              onClick = {()=>{
+                toggle_modal();
+                getCaptcha();
+              }}
               style={{ borderRadius: "20px" }}
             >
-              Get One Time Password
+              Get Captcha
             </Button>{" "}
           </center>
         </ModalBody>
@@ -181,7 +222,7 @@ const Example = (props) => {
         <center>
           <br />
           <img
-            src="form12.png"
+            src={imgValue}
             alt=""
             style={{
               justifyContent: "center",
@@ -190,7 +231,7 @@ const Example = (props) => {
             }}
           />
           <h4 style={{ textAlign: "center", margin: "3%" }}>
-            OTP Verification!
+            Captcha Verification!
           </h4>
         </center>
         <ModalBody>
@@ -199,9 +240,12 @@ const Example = (props) => {
               {/* <Label for="otp">OTP Number</Label> */}
               <Input
                 type="text"
+                onChange={(e)=>{
+                  setCaptchaValue(e.target.value)
+                }}
                 name="otp"
                 id="otp"
-                placeholder="Enter Your One Time Password"
+                placeholder="Enter Your Captcha"
                 style={{ borderRadius: "20px" }}
               />
             </FormGroup>
@@ -211,10 +255,13 @@ const Example = (props) => {
             <Button
               outline
               color="primary"
-              onClick={toggle_modal_new}
+              onClick={()=>{
+                toggle_modal_new()
+                getOtp()
+              }}
               style={{ borderRadius: "20px" }}
             >
-              Verify One Time Password
+              Verify Captcha
             </Button>{" "}
           </center>
         </ModalBody>
