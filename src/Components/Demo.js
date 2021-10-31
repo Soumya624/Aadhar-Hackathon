@@ -8,6 +8,10 @@ export default function Demo() {
     const [ captchaValue, setCaptchaValue ] = useState(null)
     const [ imgValue, setImgValue ] = useState(null)
 
+    function eKyc(){
+        let url = "https://auth.uidai.gov.in/kyc/2.5/public/0/0/MEY2cG1nhC02dzj6hnqyKN2A1u6U0LcLAYaPBaLI-3qE-FtthtweGuk"
+    }
+
     function getCaptcha(){
         let url = "https://stage1.uidai.gov.in/unifiedAppAuthService/api/v2/get/captcha"
         let data = {
